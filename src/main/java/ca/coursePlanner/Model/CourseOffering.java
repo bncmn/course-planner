@@ -1,9 +1,7 @@
 package ca.coursePlanner.Model;
 
-public class CourseOffering {
+public class CourseOffering extends Course {
     private Semester semester;
-    private String subject;
-    private String catalogNumber;
     private String location;
     private String enrolmentCap;
     private String enrolmentTotal;
@@ -11,9 +9,8 @@ public class CourseOffering {
     private String componentCode;
 
     public CourseOffering(String semester, String subject, String catalogNumber, String location, String enrolmentCap, String enrolmentTotal, String instructors, String componentCode) {
+        super(subject, catalogNumber);
         this.semester = new Semester(semester);
-        this.subject = subject;
-        this.catalogNumber = catalogNumber;
         this.location = location;
         this.enrolmentCap = enrolmentCap;
         this.enrolmentTotal = enrolmentTotal;
@@ -26,11 +23,11 @@ public class CourseOffering {
     }
 
     public String getSubject() {
-        return subject;
+        return super.getSubject();
     }
 
     public String getCatalogNumber() {
-        return catalogNumber;
+        return super.getCatalogNumber();
     }
 
     public String getLocation() {
@@ -51,5 +48,9 @@ public class CourseOffering {
 
     public String getComponentCode() {
         return componentCode;
+    }
+
+    public Course getCourseCode() {
+        return new Course(super.getSubject(), super.getCatalogNumber());
     }
 }

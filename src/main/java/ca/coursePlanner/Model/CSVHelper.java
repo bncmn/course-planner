@@ -15,18 +15,21 @@ public class CSVHelper {
         List<CourseOffering> importedOfferings = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(dataFile))) {
+            // Skip first line that contains column headers
+            br.readLine();
+
             // Parse lines in the CSV file
             while ((line = br.readLine()) != null) {
-                String[] values = line.split(csvSeparator);
+                String[] lineIn = line.split(csvSeparator);
 
-                String semester = values[0];
-                String subject = values[1];
-                String catalogNumber = values[2];
-                String location = values[3];
-                String enrolmentCap = values[4];
-                String enrolmentTotal = values[5];
-                String instructors = values[6];
-                String componentCode = values[7];
+                String semester = lineIn[0];
+                String subject = lineIn[1];
+                String catalogNumber = lineIn[2];
+                String location = lineIn[3];
+                String enrolmentCap = lineIn[4];
+                String enrolmentTotal = lineIn[5];
+                String instructors = lineIn[6];
+                String componentCode = lineIn[7];
 
                 // Build new CourseOffering object
                 CourseOffering currentOffering = new CourseOffering(

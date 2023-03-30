@@ -14,7 +14,8 @@ public class PlannerController {
 
     @GetMapping("/api/dump-model")
     public void dumpModel() {
-        courseManager.importCoursesFromCsvFile("data/course_data_2018.csv");
-        System.out.println(courseManager.getOfferings());
+        courseManager.importCoursesFromCsvFile("data/small_data.csv");
+//        courseManager.importCoursesFromCsvFile("data/course_data_2018.csv");
+        courseManager.dumpCourseOfferings();
     }
 }

@@ -1,17 +1,26 @@
 package ca.coursePlanner.Model;
 
 public class Semester {
-    enum SemesterSeason {
-        SPRING,
-        SUMMER,
-        FALL
-    }
     private String year;
-    private SemesterSeason season;
+    private String season;
+    private String rawSemesterCode;
 
     public Semester(String semesterCode) {
+        this.rawSemesterCode = semesterCode;
         this.year = decodeYear(semesterCode);
         this.season = decodeSemesterSeason(semesterCode);
+    }
+
+    public String getRawSemesterCode() {
+        return rawSemesterCode;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public String getSeason() {
+        return season.toString();
     }
 
     private String decodeYear(String semesterCode) {
@@ -19,20 +28,20 @@ public class Semester {
         String yearSubstring = semesterCode.substring(0, 3);
 
         int decodedYear = CONSTANT_CENTURY
-                + (100 * yearSubstring.charAt(0))
-                + (10 * yearSubstring.charAt(1))
-                + yearSubstring.charAt(2);
+                + (100 * Character.getNumericValue(yearSubstring.charAt(0)))
+                + (10 * Character.getNumericValue(yearSubstring.charAt(1)))
+                + Character.getNumericValue(yearSubstring.charAt(2));
 
         return Integer.toString(decodedYear);
     }
 
-    private SemesterSeason decodeSemesterSeason(String semesterCode) {
-        int semesterInt = semesterCode.charAt(semesterCode.length() - 1);
+    private String decodeSemesterSeason(String semesterCode) {
+        char semesterInt = semesterCode.charAt(semesterCode.length() - 1);
 
         return switch (semesterInt) {
-            case 1 -> SemesterSeason.SPRING;
-            case 4 -> SemesterSeason.SUMMER;
-            case 7 -> SemesterSeason.FALL;
+            case '1' -> "SPRING";
+            case '4' -> "SUMMER";
+            case '7' -> "FALL";
             default -> null;
         };
     }
