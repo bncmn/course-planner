@@ -20,7 +20,8 @@ public class CSVHelper {
 
             // Parse lines in the CSV file
             while ((line = br.readLine()) != null) {
-                String[] lineIn = line.split(csvSeparator);
+                // Regex sourced from: https://www.baeldung.com/java-split-string-commas
+                String[] lineIn = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);;
 
                 String semester = lineIn[0];
                 String subject = lineIn[1];

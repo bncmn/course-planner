@@ -5,27 +5,27 @@ import java.util.List;
 
 public class CourseManager {
     private List<CourseOffering> offerings = new ArrayList<>();
-    private List<Course> courses = new ArrayList<>();
+    private List<String> courses = new ArrayList<>();
 
     public void importCoursesFromCsvFile(String dataFile) {
         this.offerings = (new CSVHelper().parseCSV(dataFile));
 
         for (CourseOffering co : offerings) {
-            if (!courses.contains(co.getCourseCode()) || courses.isEmpty()) {
+            if (!courses.contains(co.getCourseCode())) {
                 addCourse(co.getCourseCode());
             }
         }
     }
 
-    private void addCourse(Course course) {
-        courses.add(course);
+    private void addCourse(String courseCode) {
+        courses.add(courseCode);
     }
 
     public void addOffering(CourseOffering courseOffering) {
         offerings.add(courseOffering);
     }
 
-    public List<Course> getCourses() {
+    public List<String> getCourses() {
         return courses;
     }
 
@@ -40,13 +40,12 @@ public class CourseManager {
     }
 
     public void dumpCourseOfferings() {
-        for (Course c : courses) {
-            System.out.println(c.getSubject() + " " + c.getCatalogNumber());
+        for (String c : courses) {
+            System.out.println(c);
 
             for (CourseOffering co : offerings) {
                 String offeringCode = co.getSubject() + " " + co.getCatalogNumber();
-                String courseCode = c.getSubject() + " " + c.getCatalogNumber();
-                if (courseCode.equals(offeringCode)) {
+                if (c.equals(offeringCode)) {
                     System.out.println("\t" + co.getSemester().getRawSemesterCode() + " (" + co.getSemester().getYear() + " " + co.getSemester().getSeason() + ") in " + co.getLocation() + " by " + co.getInstructors());
                     System.out.println("\t Type = " + co.getComponentCode() + ", Enrolment = " + co.getEnrolmentTotal() + "/" + co.getEnrolmentCap());
                 }

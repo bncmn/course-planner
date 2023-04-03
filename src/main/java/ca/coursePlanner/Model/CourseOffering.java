@@ -49,8 +49,4 @@ public class CourseOffering extends Course {
     public String getComponentCode() {
         return componentCode;
     }
-
-    public Course getCourseCode() {
-        return new Course(super.getSubject(), super.getCatalogNumber());
-    }
 }

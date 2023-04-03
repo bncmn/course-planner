@@ -16,4 +16,8 @@ public class Course {
     public String getCatalogNumber() {
         return catalogNumber;
     }
+
+    public String getCourseCode() {
+        return subject + " " + catalogNumber;
+    }
 }
