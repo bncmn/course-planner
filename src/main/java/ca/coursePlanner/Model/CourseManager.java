@@ -46,8 +46,14 @@ public class CourseManager {
             for (CourseOffering co : offerings) {
                 String offeringCode = co.getSubject() + " " + co.getCatalogNumber();
                 if (c.equals(offeringCode)) {
-                    if (co.getComponentCode().equals("LEC"))
-                        System.out.println("\t" + co.getSemester().getRawSemesterCode() + " (" + co.getSemester().getYear() + " " + co.getSemester().getSeason() + ") in " + co.getLocation() + " by " + co.getInstructors());
+                    if (!co.getComponentCode().equals("LAB")) {
+                        if (!co.getInstructors().equals("<null>")) {
+                            System.out.println("\t" + co.getSemester().getRawSemesterCode() + " in " + co.getLocation() + " by " + co.getInstructors());
+                        }
+                        else {
+                            System.out.println("\t" + co.getSemester().getRawSemesterCode() + " in " + co.getLocation());
+                        }
+                    }
                     System.out.println("\t Type = " + co.getComponentCode() + ", Enrolment = " + co.getEnrolmentTotal() + "/" + co.getEnrolmentCap());
                 }
             }
