@@ -48,7 +48,7 @@ public class CSVHelper {
                 for (CourseOffering c : importedOfferings){
                     if (c.equals(currentOffering)) {
                         sameSection = true;
-                        c.hasSameCampus(instructors);
+                        c.profSameCampus(instructors);
                         c.addSpot(enrolmentCap, enrolmentTotal, instructors);
                         break;
                     }
@@ -56,6 +56,13 @@ public class CSVHelper {
                 if (!sameSection) {
                     importedOfferings.add(currentOffering);
                 }
+                // Add the instructor if multiple instructor teach in same course and location
+                for (CourseOffering c : importedOfferings) {
+                    if (c.sameCampus(currentOffering)){
+                        c.profSameCampus(instructors);
+                }
+            }
+
             }
         } catch (IOException e) {
             e.printStackTrace();

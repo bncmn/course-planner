@@ -62,13 +62,12 @@ public class CourseOffering extends Course {
 
         this.enrolmentCap = String.valueOf(currentCap + newCap);
         this.enrolmentTotal = String.valueOf(currentTotal + newTotal);
-        hasSameCampus(instructors);
+        profSameCampus(instructors);
     }
 
-    public void hasSameCampus(String newInstructor) {
+    public void profSameCampus(String newInstructor) {
         if (!this.instructors.contains(newInstructor)) {
             this.instructors = this.instructors + ", " + newInstructor;
-            System.out.println("After adding Ins: " + this.instructors);
         }
     }
 
@@ -83,9 +82,19 @@ public class CourseOffering extends Course {
         return super.equals(that)
                 && Objects.equals(semester, that.semester)
                 && Objects.equals(location, that.location)
-//                && Objects.equals(enrolmentCap, that.enrolmentCap)
-//                && Objects.equals(enrolmentTotal, that.enrolmentTotal)
-//                && Objects.equals(instructors, that.instructors)
                 && Objects.equals(componentCode, that.componentCode);
+    }
+
+    // This is to check if the two section has different prof or not
+    public boolean sameCampus(Object o) {
+        if (o == this) return true;
+
+        if (!(o instanceof CourseOffering)) return false;
+
+        CourseOffering that = (CourseOffering) o;
+
+        return super.equals(that)
+                && Objects.equals(semester, that.semester)
+                && Objects.equals(location, that.location);
     }
 }
