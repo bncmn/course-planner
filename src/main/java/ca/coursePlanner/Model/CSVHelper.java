@@ -43,8 +43,17 @@ public class CSVHelper {
                         instructors,
                         componentCode
                 );
-
-                importedOfferings.add(currentOffering);
+                boolean sameSection = false;
+                for (CourseOffering c : importedOfferings){
+                    if (c.equals(currentOffering)) {
+                        sameSection = true;
+                        c.addSpot(currentOffering.getEnrolmentCap(), currentOffering.getEnrolmentTotal());
+                        break;
+                    }
+                }
+                if (!sameSection) {
+                    importedOfferings.add(currentOffering);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();

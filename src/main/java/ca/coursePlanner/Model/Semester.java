@@ -1,5 +1,7 @@
 package ca.coursePlanner.Model;
 
+import java.util.Objects;
+
 public class Semester {
     private String year;
     private String season;
@@ -44,5 +46,17 @@ public class Semester {
             case '7' -> "FALL";
             default -> null;
         };
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) return true;
+
+        if (!(o instanceof Semester)) return false;
+
+        Semester that = (Semester) o;
+        return Objects.equals(year, that.year)
+                && Objects.equals(season, that.season)
+                && Objects.equals(rawSemesterCode, that.rawSemesterCode);
     }
 }

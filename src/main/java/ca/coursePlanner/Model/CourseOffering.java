@@ -1,5 +1,9 @@
 package ca.coursePlanner.Model;
 
+import java.util.Objects;
+
+import static com.fasterxml.jackson.core.io.NumberInput.parseInt;
+
 public class CourseOffering extends Course {
     private Semester semester;
     private String location;
@@ -48,5 +52,40 @@ public class CourseOffering extends Course {
 
     public String getComponentCode() {
         return componentCode;
+    }
+
+    public void setEnrolmentCap(String enrolmentCap) {
+        this.enrolmentCap = enrolmentCap;
+    }
+
+    public void setEnrolmentTotal(String enrolmentTotal) {
+        this.enrolmentTotal = enrolmentTotal;
+    }
+
+    public void addSpot(String cap, String total) {
+        int newCap = Integer.parseInt(cap);
+        int newTotal = Integer.parseInt(total);
+        int currentCap = Integer.parseInt(this.enrolmentCap);
+        int currentTotal = Integer.parseInt(this.enrolmentTotal);
+
+        this.enrolmentCap = String.valueOf(currentCap + newCap);
+        this.enrolmentTotal = String.valueOf(currentTotal + newTotal);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) return true;
+
+        if (!(o instanceof CourseOffering)) return false;
+
+        CourseOffering that = (CourseOffering) o;
+
+        return super.equals(that)
+                && Objects.equals(semester, that.semester)
+                && Objects.equals(location, that.location)
+//                && Objects.equals(enrolmentCap, that.enrolmentCap)
+//                && Objects.equals(enrolmentTotal, that.enrolmentTotal)
+//                && Objects.equals(instructors, that.instructors)
+                && Objects.equals(componentCode, that.componentCode);
     }
 }
