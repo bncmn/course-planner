@@ -54,15 +54,7 @@ public class CourseOffering extends Course {
         return componentCode;
     }
 
-    public void setEnrolmentCap(String enrolmentCap) {
-        this.enrolmentCap = enrolmentCap;
-    }
-
-    public void setEnrolmentTotal(String enrolmentTotal) {
-        this.enrolmentTotal = enrolmentTotal;
-    }
-
-    public void addSpot(String cap, String total) {
+    public void addSpot(String cap, String total, String instructors) {
         int newCap = Integer.parseInt(cap);
         int newTotal = Integer.parseInt(total);
         int currentCap = Integer.parseInt(this.enrolmentCap);
@@ -70,6 +62,14 @@ public class CourseOffering extends Course {
 
         this.enrolmentCap = String.valueOf(currentCap + newCap);
         this.enrolmentTotal = String.valueOf(currentTotal + newTotal);
+        hasSameCampus(instructors);
+    }
+
+    public void hasSameCampus(String newInstructor) {
+        if (!this.instructors.contains(newInstructor)) {
+            this.instructors = this.instructors + ", " + newInstructor;
+            System.out.println("After adding Ins: " + this.instructors);
+        }
     }
 
     @Override

@@ -43,11 +43,13 @@ public class CSVHelper {
                         instructors,
                         componentCode
                 );
+                // Aggregation by semester, location, componentCode
                 boolean sameSection = false;
                 for (CourseOffering c : importedOfferings){
                     if (c.equals(currentOffering)) {
                         sameSection = true;
-                        c.addSpot(currentOffering.getEnrolmentCap(), currentOffering.getEnrolmentTotal());
+                        c.hasSameCampus(instructors);
+                        c.addSpot(enrolmentCap, enrolmentTotal, instructors);
                         break;
                     }
                 }
