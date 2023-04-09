@@ -14,8 +14,15 @@ public class PlannerController {
 
     @GetMapping("/api/dump-model")
     public void dumpModel() {
-        courseManager.importCoursesFromCsvFile("data/small_data.csv");
-//        courseManager.importCoursesFromCsvFile("data/course_data_2018.csv");
+//        courseManager.importCoursesFromCsvFile("data/small_data.csv");
+        courseManager.importCoursesFromCsvFile("data/course_data_2018.csv");
         courseManager.dumpCourseOfferings();
     }
+
+    @GetMapping("/api/about")
+    public ResponseObject getAuthors() {
+        return new ResponseObject("Cool Course Planner", "Diego Buencamino and Matt Tsai");
+    }
+
+
 }
