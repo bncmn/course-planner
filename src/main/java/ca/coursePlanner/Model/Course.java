@@ -1,26 +1,28 @@
 package ca.coursePlanner.Model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Course {
-    private String subject;
     private String catalogNumber;
 
-    public Course(String subject, String catalogNumber) {
-        this.subject = subject;
-        this.catalogNumber = catalogNumber;
-    }
+    private List<CourseOffering> offerings = new ArrayList<>();
 
-    public String getSubject() {
-        return subject;
+    public Course(String catalogNumber) {
+        this.catalogNumber = catalogNumber;
     }
 
     public String getCatalogNumber() {
         return catalogNumber;
     }
 
-    public String getCourseCode() {
-        return subject + " " + catalogNumber;
+    public List<CourseOffering> getOfferings() {
+        return offerings;
+    }
+
+    public void addNewOffering(CourseOffering offering) {
+        offerings.add(offering);
     }
 
     @Override
@@ -30,7 +32,6 @@ public class Course {
         if (!(o instanceof Course)) return false;
 
         Course that = (Course) o;
-        return Objects.equals(subject, that.subject)
-                && Objects.equals(catalogNumber, that.catalogNumber);
+        return Objects.equals(catalogNumber, that.catalogNumber);
     }
 }

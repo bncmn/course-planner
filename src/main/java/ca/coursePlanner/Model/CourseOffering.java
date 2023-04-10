@@ -4,45 +4,36 @@ import java.util.Objects;
 
 import static com.fasterxml.jackson.core.io.NumberInput.parseInt;
 
-public class CourseOffering extends Course {
-    private Semester semester;
+public class CourseOffering{
+    private String semester;
     private String location;
-    private String enrolmentCap;
-    private String enrolmentTotal;
+    private int enrolmentCapacity;
+    private int enrolmentTotal;
     private String instructors;
     private String componentCode;
 
-    public CourseOffering(String semester, String subject, String catalogNumber, String location, String enrolmentCap, String enrolmentTotal, String instructors, String componentCode) {
-        super(subject, catalogNumber);
-        this.semester = new Semester(semester);
+    public CourseOffering(String semester, String location, int enrolmentCapacity, int enrolmentTotal, String instructors, String componentCode) {
+        this.semester = semester;
         this.location = location;
-        this.enrolmentCap = enrolmentCap;
+        this.enrolmentCapacity = enrolmentCapacity;
         this.enrolmentTotal = enrolmentTotal;
         this.instructors = instructors;
         this.componentCode = componentCode;
     }
 
-    public Semester getSemester() {
+    public String getSemester() {
         return semester;
-    }
-
-    public String getSubject() {
-        return super.getSubject();
-    }
-
-    public String getCatalogNumber() {
-        return super.getCatalogNumber();
     }
 
     public String getLocation() {
         return location;
     }
 
-    public String getEnrolmentCap() {
-        return enrolmentCap;
+    public int getEnrolmentCapacity() {
+        return enrolmentCapacity;
     }
 
-    public String getEnrolmentTotal() {
+    public int getEnrolmentTotal() {
         return enrolmentTotal;
     }
 
@@ -54,15 +45,23 @@ public class CourseOffering extends Course {
         return componentCode;
     }
 
-    public void addSpot(String cap, String total, String instructors) {
-        int newCap = Integer.parseInt(cap);
-        int newTotal = Integer.parseInt(total);
-        int currentCap = Integer.parseInt(this.enrolmentCap);
-        int currentTotal = Integer.parseInt(this.enrolmentTotal);
+//    public void addSpot(int cap, int total, String instructors) {
+//        int newCap = cap;
+//        int newTotal = total;
+//        int currentCap = this.enrolmentCap;
+//        int currentTotal = this.enrolmentTotal;
+//
+//        this.enrolmentCap = currentCap + newCap;
+//        this.enrolmentTotal = currentTotal + newTotal;
+//        profSameCampus(instructors);
+//    }
 
-        this.enrolmentCap = String.valueOf(currentCap + newCap);
-        this.enrolmentTotal = String.valueOf(currentTotal + newTotal);
-        profSameCampus(instructors);
+    public void setEnrolmentCapacity(int enrolmentCapacity) {
+        this.enrolmentCapacity = enrolmentCapacity;
+    }
+
+    public void setEnrolmentTotal(int enrolmentTotal) {
+        this.enrolmentTotal = enrolmentTotal;
     }
 
     public void profSameCampus(String newInstructor) {

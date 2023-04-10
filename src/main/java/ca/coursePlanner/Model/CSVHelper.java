@@ -8,11 +8,11 @@ import java.util.List;
 
 public class CSVHelper {
     // Will be changed in part 2 to take path to input file.
-    public List<CourseOffering> parseCSV(String dataFile) {
+    public List<RawCourseListing> parseCSV(String dataFile) {
         String line = "";
         String csvSeparator = ",";
 
-        List<CourseOffering> importedOfferings = new ArrayList<>();
+        List<RawCourseListing> rawOfferings = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(dataFile))) {
             // Skip first line that contains column headers
@@ -27,13 +27,13 @@ public class CSVHelper {
                 String subject = lineIn[1];
                 String catalogNumber = lineIn[2];
                 String location = lineIn[3];
-                String enrolmentCap = lineIn[4];
-                String enrolmentTotal = lineIn[5];
+                int enrolmentCap = Integer.parseInt(lineIn[4]);
+                int enrolmentTotal = Integer.parseInt(lineIn[5]);
                 String instructors = lineIn[6];
                 String componentCode = lineIn[7];
 
-                // Build new CourseOffering object
-                CourseOffering currentOffering = new CourseOffering(
+                // Build new RawCourseListing object
+                RawCourseListing rawListing = new RawCourseListing(
                         semester,
                         subject,
                         catalogNumber,
@@ -43,31 +43,31 @@ public class CSVHelper {
                         instructors,
                         componentCode
                 );
-                // Aggregation by semester, location, componentCode
-                boolean sameSection = false;
-                for (CourseOffering c : importedOfferings){
-                    if (c.equals(currentOffering)) {
-                        sameSection = true;
-                        c.profSameCampus(instructors);
-                        c.addSpot(enrolmentCap, enrolmentTotal, instructors);
-                        break;
-                    }
-                }
-                if (!sameSection) {
-                    importedOfferings.add(currentOffering);
-                }
-                // Add the instructor if multiple instructor teach in same course and location
-                for (CourseOffering c : importedOfferings) {
-                    if (c.sameCampus(currentOffering)){
-                        c.profSameCampus(instructors);
-                }
-            }
 
+                rawOfferings.add(rawListing);
+//                // Aggregation by semester, location, componentCode
+//                boolean sameSection = false;
+//                for (CourseOffering c : importedOfferings){
+//                    if (c.equals(currentOffering)) {
+//                        sameSection = true;
+//                        c.profSameCampus(instructors);
+//                        c.addSpot(enrolmentCap, enrolmentTotal, instructors);
+//                        break;
+//                    }
+//                }
+//                if (!sameSection) {
+//                    importedOfferings.add(currentOffering);
+//                }
+//                // Add the instructor if multiple instructor teach in same course and location
+//                for (CourseOffering c : importedOfferings) {
+//                    if (c.sameCampus(currentOffering)){
+//                        c.profSameCampus(instructors);
+//                }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return importedOfferings;
+        return rawOfferings;
     }
 }
