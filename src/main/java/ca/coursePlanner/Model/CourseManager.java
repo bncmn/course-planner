@@ -101,6 +101,7 @@ public class CourseManager {
                 // If an existing offering is found, update its instructors.
                 List<String> existingInstructors = new ArrayList<String>(Arrays.asList(offering.getInstructors().split(",")));
                 String[] newInstructors = instructors.split(",");
+
                 for (String instructor : newInstructors) {
                     if (instructor != null && !instructor.trim().isEmpty() && !existingInstructors.contains(instructor.trim())) {
                         existingInstructors.add(instructor.trim());
