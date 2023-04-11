@@ -33,3 +33,7 @@ build/tmp/compileJava/previous-compilation-data.bin
 *.probe
 *.lock
 *.bin
+*.lock
+*.bin
+*.probe
+*.class
