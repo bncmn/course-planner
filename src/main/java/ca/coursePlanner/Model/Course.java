@@ -1,8 +1,6 @@
 package ca.coursePlanner.Model;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Course {
     private String catalogNumber;

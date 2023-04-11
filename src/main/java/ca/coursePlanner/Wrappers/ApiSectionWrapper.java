@@ -2,13 +2,13 @@ package ca.coursePlanner.Wrappers;
 
 public class ApiSectionWrapper {
     public int sectionId;
-    public int enrolmentCapacity;
-    public int enrolmentTotal;
-    public String componentCode;
+    public int enrollmentCap;
+    public int enrollmentTotal;
+    public String type;
 
-    public ApiSectionWrapper(int enrolmentCapacity, int enrolmentTotal, String componentCode) {
-        this.enrolmentCapacity = enrolmentCapacity;
-        this.enrolmentTotal = enrolmentTotal;
-        this.componentCode = componentCode;
+    public ApiSectionWrapper(String componentCode, int enrollmentTotal , int enrollmentCap) {
+        this.enrollmentCap = enrollmentCap;
+        this.enrollmentTotal = enrollmentTotal;
+        this.type = componentCode;
     }
 }

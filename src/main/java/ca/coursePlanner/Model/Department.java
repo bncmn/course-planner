@@ -1,8 +1,6 @@
 package ca.coursePlanner.Model;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Department {
     private String name;
@@ -17,6 +15,7 @@ public class Department {
     }
 
     public List<Course> getCourses() {
+        sortCoursesByCatalogNumber();
         return courses;
     }
 
@@ -33,4 +32,9 @@ public class Department {
         Department that = (Department) o;
         return Objects.equals(name, that.name);
     }
+
+    public void sortCoursesByCatalogNumber() {
+        Collections.sort(courses, Comparator.comparing(Course::getCatalogNumber));
+    }
+
 }

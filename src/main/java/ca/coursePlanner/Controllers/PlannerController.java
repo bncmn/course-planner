@@ -93,9 +93,9 @@ public class PlannerController {
                     .getOfferings().get(courseOfferingId)
                     .getSections()) {
                 sections.add(new ApiSectionWrapper(
-                        s.getEnrolmentCapacity(),
+                        s.getComponentCode(),
                         s.getEnrolmentTotal(),
-                        s.getComponentCode()
+                        s.getEnrolmentCapacity()
                 ));
             }
             return sections;

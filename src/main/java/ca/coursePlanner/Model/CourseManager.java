@@ -9,8 +9,8 @@ public class CourseManager {
     private static List<Department> departments = new ArrayList<>();
 
     public CourseManager() {
-//        importCoursesFromCsvFile("data/course_data_2018.csv");
-        importCoursesFromCsvFile("data/small_data.csv");
+        importCoursesFromCsvFile("data/course_data_2018.csv");
+//        importCoursesFromCsvFile("data/small_data.csv");
     }
 
     public List<Department> getDepartments() {
@@ -57,6 +57,12 @@ public class CourseManager {
             if (department == null) {
                 department = new Department(subject);
                 departments.add(department);
+                Collections.sort(departments, new Comparator<Department>() {
+                    @Override
+                    public int compare(Department d1, Department d2) {
+                        return d1.getName().compareTo(d2.getName());
+                    }
+                });
             }
 
             // Try to find an existing course with the same catalog number.
