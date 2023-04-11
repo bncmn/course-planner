@@ -83,15 +83,21 @@ public class PlannerController {
         }
     }
 
-//    @GetMapping("/api/departments/{deptId}/courses/{courseId}/offerings/{offeringId}")
-//    public ApiSectionWrapper getSpecificOffering(@PathVariable("deptId") int deptId, @PathVariable("courseId") int courseId, @PathVariable("offeringId") int offeringId) {
-//        try {
-//            CourseOffering fetchedOffering = courseManager.getDepartments().get(deptId).getCourses().get(courseId).getOfferings().get(offeringId);
-//
-//            //return new ApiSectionWrapper(fetchedOffering.getEnrolmentCapacity(), fetchedOffering.getEnrolmentTotal(), fetchedOffering.getComponentCode());
-//        }
-//        catch (Exception e) {
-//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "One of Department ID or Course ID is invalid!");
-//        }
-//    }
+    @GetMapping("/api/departments/{deptId}/courses/{courseId}/offerings/{offeringId}")
+    public List<ApiSectionWrapper> getSpecificOffering(@PathVariable("deptId") int deptId, @PathVariable("courseId") int courseId, @PathVariable("offeringId") int offeringId) {
+        try {
+            List<ApiSectionWrapper> sections = new ArrayList<>();
+            for (Section s : courseManager.getDepartments().get(deptId).getCourses().get(courseId).getOfferings().get(offeringId).getSections()) {
+                sections.add(new ApiSectionWrapper(
+                        s.getEnrolmentCapacity(),
+                        s.getEnrolmentTotal(),
+                        s.getComponentCode()
+                ));
+            }
+            return sections;
+        }
+        catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "One of Department ID or Course ID is invalid!");
+        }
+    }
 }

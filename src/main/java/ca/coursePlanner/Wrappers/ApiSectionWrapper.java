@@ -1,6 +1,7 @@
 package ca.coursePlanner.Wrappers;
 
 public class ApiSectionWrapper {
+    public int sectionId;
     public int enrolmentCapacity;
     public int enrolmentTotal;
     public String componentCode;

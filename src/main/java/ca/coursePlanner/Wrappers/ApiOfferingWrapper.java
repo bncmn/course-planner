@@ -14,7 +14,15 @@ public class ApiOfferingWrapper {
         this.term = decodeSemesterSeason(semester);
         this.year = decodeYear(semester);
         this.location = location;
-        this.instructors = instructors;
+        this.instructors = stripNullInstructors(instructors);
+    }
+
+    private String stripNullInstructors(String instructors) {
+        String result = instructors.replaceAll(", <null>,", ",")
+                .replaceAll(", <null>", "")
+                .replaceAll("<null>,", "")
+                .replaceAll("<null>", "");
+        return result;
     }
 
     private String decodeYear(String semesterCode) {

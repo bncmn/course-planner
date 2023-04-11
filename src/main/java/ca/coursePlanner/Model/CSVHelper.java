@@ -45,24 +45,6 @@ public class CSVHelper {
                 );
 
                 rawOfferings.add(rawListing);
-//                // Aggregation by semester, location, componentCode
-//                boolean sameSection = false;
-//                for (CourseOffering c : importedOfferings){
-//                    if (c.equals(currentOffering)) {
-//                        sameSection = true;
-//                        c.profSameCampus(instructors);
-//                        c.addSpot(enrolmentCap, enrolmentTotal, instructors);
-//                        break;
-//                    }
-//                }
-//                if (!sameSection) {
-//                    importedOfferings.add(currentOffering);
-//                }
-//                // Add the instructor if multiple instructor teach in same course and location
-//                for (CourseOffering c : importedOfferings) {
-//                    if (c.sameCampus(currentOffering)){
-//                        c.profSameCampus(instructors);
-//                }
             }
         } catch (IOException e) {
             e.printStackTrace();

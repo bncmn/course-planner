@@ -1,9 +1,6 @@
 package ca.coursePlanner.Model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CourseManager {
     private List<RawCourseListing> rawCourseList = new ArrayList<>();
@@ -21,57 +18,91 @@ public class CourseManager {
     public void importCoursesFromCsvFile(String dataFile) {
         this.rawCourseList = (new CSVHelper().parseCSV(dataFile));
 
-        Map<String, Department> departmentMap = new HashMap<>();
-        Map<String, Course> addedCourses = new HashMap<>();
         for (RawCourseListing rcl : rawCourseList) {
             String subject = rcl.getSubject();
             String catalogNumber = rcl.getCatalogNumber();
             String semester = rcl.getSemester();
             String location = rcl.getLocation();
+            String instructors = rcl.getInstructors();
+            int enrolmentCapacity = rcl.getEnrolmentCapacity();
+            int enrolmentTotal = rcl.getEnrolmentTotal();
             String componentCode = rcl.getComponentCode();
 
-            // Get or create the department
-            Department department = departmentMap.get(subject);
+            // Try to find an existing department with the same subject.
+            Department department = null;
+            for (Department d : departments) {
+                if (d.getName().equals(subject)) {
+                    department = d;
+                    break;
+                }
+            }
+
+            // Create a new department if one does not exist.
             if (department == null) {
                 department = new Department(subject);
-                departmentMap.put(subject, department);
                 departments.add(department);
             }
 
-            // Check if the course has already been added
-            Course course = addedCourses.get(catalogNumber + semester + location + componentCode);
+            // Try to find an existing course with the same catalog number.
+            Course course = null;
+            List<Course> courses = department.getCourses();
+            for (Course c : courses) {
+                if (c.getCatalogNumber().equals(catalogNumber)) {
+                    course = c;
+                    break;
+                }
+            }
 
+            // Create a new course if one does not exist.
             if (course == null) {
-                // Get or create the course
-                List<Course> courses = department.getCourses();
-                course = null;
-                for (Course c : courses) {
-                    if (c.getCatalogNumber().equals(catalogNumber)) {
-                        course = c;
-                        break;
+                course = new Course(catalogNumber);
+                courses.add(course);
+            }
+
+            // Try to find an existing offering.
+            CourseOffering offering = null;
+            List<CourseOffering> offerings = course.getOfferings();
+            for (CourseOffering o : offerings) {
+                if (o.getSemester().equals(semester) && o.getLocation().equals(location)) {
+                    offering = o;
+                    break;
+                }
+            }
+
+            // Create a new offering if one does not exist.
+            if (offering == null) {
+                offering = new CourseOffering(semester, location, instructors);
+                offerings.add(offering);
+            }
+            else {
+                // If an existing offering is found, update its instructors.
+                List<String> existingInstructors = new ArrayList<String>(Arrays.asList(offering.getInstructors().split(",")));
+                String[] newInstructors = instructors.split(",");
+                for (String instructor : newInstructors) {
+                    if (instructor != null && !instructor.trim().isEmpty() && !existingInstructors.contains(instructor.trim())) {
+                        existingInstructors.add(instructor.trim());
                     }
                 }
-                if (course == null) {
-                    course = new Course(catalogNumber);
-                    courses.add(course);
-                }
+                offering.setInstructors(String.join(", ", existingInstructors));
+            }
 
-                // Create the offering and add it to the course
-                CourseOffering offering = new CourseOffering(
-                        semester,
-                        location,
-                        rcl.getEnrolmentCapacity(),
-                        rcl.getEnrolmentTotal(),
-                        rcl.getInstructors(),
-                        componentCode
-                );
-                course.getOfferings().add(offering);
-                addedCourses.put(catalogNumber + semester + location + componentCode, course);
-            } else {
-                // Add the enrolment numbers to the existing offering
-                CourseOffering offering = course.getOfferings().get(course.getOfferings().size() - 1);
-                offering.setEnrolmentCapacity(offering.getEnrolmentCapacity() + rcl.getEnrolmentCapacity());
-                offering.setEnrolmentTotal(offering.getEnrolmentTotal() + rcl.getEnrolmentTotal());
+            // Try to find an existing section with the same componentCode.
+            Section section = null;
+            List<Section> sections = offering.getSections();
+            for (Section s : sections) {
+                if (s.getComponentCode().equals(componentCode)) {
+                    section = s;
+                    break;
+                }
+            }
+
+            // If an existing section is found, update its enrolment. Otherwise, add a new section.
+            if (section != null) {
+                section.setEnrolmentTotal(section.getEnrolmentTotal() + enrolmentTotal);
+                section.setEnrolmentCapacity(section.getEnrolmentCapacity() + enrolmentCapacity);
+            }
+            else {
+                offering.getSections().add(new Section(enrolmentCapacity, enrolmentTotal, componentCode));
             }
         }
     }
@@ -90,10 +121,11 @@ public class CourseManager {
                         lastSemester = offering.getSemester();
                         lastInstructors = offering.getInstructors();
                     }
-                    System.out.println("\t Type=" + offering.getComponentCode() + ", Enrolment=" + offering.getEnrolmentTotal() + "/" + offering.getEnrolmentCapacity());
+                    for (Section section : offering.getSections()) {
+                        System.out.println("\t\tType=" + section.getComponentCode() + ", Enrolment=" + section.getEnrolmentTotal() + "/" + section.getEnrolmentCapacity());
+                    }
                 }
             }
         }
-
     }
 }

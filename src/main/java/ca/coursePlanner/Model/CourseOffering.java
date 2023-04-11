@@ -1,5 +1,7 @@
 package ca.coursePlanner.Model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import static com.fasterxml.jackson.core.io.NumberInput.parseInt;
@@ -7,18 +9,13 @@ import static com.fasterxml.jackson.core.io.NumberInput.parseInt;
 public class CourseOffering{
     private String semester;
     private String location;
-    private int enrolmentCapacity;
-    private int enrolmentTotal;
     private String instructors;
-    private String componentCode;
+    private List<Section> sections = new ArrayList<>();
 
-    public CourseOffering(String semester, String location, int enrolmentCapacity, int enrolmentTotal, String instructors, String componentCode) {
+    public CourseOffering(String semester, String location, String instructors) {
         this.semester = semester;
         this.location = location;
-        this.enrolmentCapacity = enrolmentCapacity;
-        this.enrolmentTotal = enrolmentTotal;
         this.instructors = instructors;
-        this.componentCode = componentCode;
     }
 
     public String getSemester() {
@@ -29,23 +26,19 @@ public class CourseOffering{
         return location;
     }
 
-    public int getEnrolmentCapacity() {
-        return enrolmentCapacity;
-    }
-
-    public int getEnrolmentTotal() {
-        return enrolmentTotal;
-    }
-
     public String getInstructors() {
         return instructors;
     }
 
-    public String getComponentCode() {
-        return componentCode;
+    public List<Section> getSections() {
+        return sections;
     }
 
-//    public void addSpot(int cap, int total, String instructors) {
+    public void setInstructors(String instructors) {
+        this.instructors = instructors;
+    }
+
+    //    public void addSpot(int cap, int total, String instructors) {
 //        int newCap = cap;
 //        int newTotal = total;
 //        int currentCap = this.enrolmentCap;
@@ -55,14 +48,6 @@ public class CourseOffering{
 //        this.enrolmentTotal = currentTotal + newTotal;
 //        profSameCampus(instructors);
 //    }
-
-    public void setEnrolmentCapacity(int enrolmentCapacity) {
-        this.enrolmentCapacity = enrolmentCapacity;
-    }
-
-    public void setEnrolmentTotal(int enrolmentTotal) {
-        this.enrolmentTotal = enrolmentTotal;
-    }
 
     public void profSameCampus(String newInstructor) {
         if (!this.instructors.contains(newInstructor)) {
@@ -80,8 +65,7 @@ public class CourseOffering{
 
         return super.equals(that)
                 && Objects.equals(semester, that.semester)
-                && Objects.equals(location, that.location)
-                && Objects.equals(componentCode, that.componentCode);
+                && Objects.equals(location, that.location);
     }
 
     // This is to check if the two section has different prof or not
