@@ -112,7 +112,9 @@ public class PlannerController {
         try {
             // Set the id = 0 for now
             List<ApiOfferingWrapper> offerings = new ArrayList<>();
-            int offeringId = 0;
+
+
+//            int offeringId = 0;
 
 //            for (CourseOffering co : courseManager
 //                    .getDepartments().get(deptId)
