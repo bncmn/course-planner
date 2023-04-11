@@ -38,23 +38,6 @@ public class CourseOffering{
         this.instructors = instructors;
     }
 
-    //    public void addSpot(int cap, int total, String instructors) {
-//        int newCap = cap;
-//        int newTotal = total;
-//        int currentCap = this.enrolmentCap;
-//        int currentTotal = this.enrolmentTotal;
-//
-//        this.enrolmentCap = currentCap + newCap;
-//        this.enrolmentTotal = currentTotal + newTotal;
-//        profSameCampus(instructors);
-//    }
-
-    public void profSameCampus(String newInstructor) {
-        if (!this.instructors.contains(newInstructor)) {
-            this.instructors = this.instructors + ", " + newInstructor;
-        }
-    }
-
     @Override
     public boolean equals(Object o) {
         if (o == this) return true;

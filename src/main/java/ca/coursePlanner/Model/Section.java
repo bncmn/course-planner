@@ -23,10 +23,6 @@ public class Section {
         return componentCode;
     }
 
-    public void setComponentCode(String componentCode) {
-        this.componentCode = componentCode;
-    }
-
     public void setEnrolmentCapacity(int enrolmentCapacity) {
         this.enrolmentCapacity = enrolmentCapacity;
     }

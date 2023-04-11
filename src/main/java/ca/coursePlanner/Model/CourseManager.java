@@ -1,10 +1,12 @@
 package ca.coursePlanner.Model;
 
+import ca.coursePlanner.Wrappers.ApiDepartmentWrapper;
+
 import java.util.*;
 
 public class CourseManager {
-    private List<RawCourseListing> rawCourseList = new ArrayList<>();
-    private List<Department> departments = new ArrayList<>();
+    private static List<RawCourseListing> rawCourseList = new ArrayList<>();
+    private static List<Department> departments = new ArrayList<>();
 
     public CourseManager() {
 //        importCoursesFromCsvFile("data/course_data_2018.csv");
@@ -13,6 +15,20 @@ public class CourseManager {
 
     public List<Department> getDepartments() {
         return departments;
+    }
+
+    public List<ApiDepartmentWrapper> getWrappedDepartments() {
+        int deptId = 0;
+        List<ApiDepartmentWrapper> wrappedDepartments = new ArrayList<>();
+
+        for (Department d : departments) {
+            wrappedDepartments.add(new ApiDepartmentWrapper(
+                    deptId,
+                    d.getName()
+            ));
+            deptId++;
+        }
+        return wrappedDepartments;
     }
 
     public void importCoursesFromCsvFile(String dataFile) {
