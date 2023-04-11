@@ -81,16 +81,16 @@ public class PlannerController {
         }
     }
 
-    @GetMapping("/api/departments/{deptId}/courses/{courseId}/offerings/{offeringId}")
+    @GetMapping("/api/departments/{deptId}/courses/{courseId}/offerings/{courseOfferingId}")
     public List<ApiSectionWrapper> getSpecificOffering(@PathVariable("deptId") int deptId,
                                        @PathVariable("courseId") int courseId,
-                                       @PathVariable("offeringId") int offeringId) {
+                                       @PathVariable("courseOfferingId") int courseOfferingId) {
         try {
             List<ApiSectionWrapper> sections = new ArrayList<>();
             for (Section s : courseManager
                     .getDepartments().get(deptId)
                     .getCourses().get(courseId)
-                    .getOfferings().get(offeringId)
+                    .getOfferings().get(courseOfferingId)
                     .getSections()) {
                 sections.add(new ApiSectionWrapper(
                         s.getEnrolmentCapacity(),

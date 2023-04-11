@@ -1,7 +1,7 @@
 package ca.coursePlanner.Wrappers;
 
 public class ApiOfferingWrapper {
-    public int offeringId;
+    public int courseOfferingId;
     public String semesterCode;
     public String term;
     public String year;
@@ -9,7 +9,7 @@ public class ApiOfferingWrapper {
     public String instructors;
 
     public ApiOfferingWrapper(int offeringId, String semester, String location, String instructors) {
-        this.offeringId = offeringId;
+        this.courseOfferingId = offeringId;
         this.semesterCode = semester;
         this.term = decodeSemesterSeason(semester);
         this.year = decodeYear(semester);
