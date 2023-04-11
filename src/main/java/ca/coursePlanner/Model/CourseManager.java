@@ -57,6 +57,7 @@ public class CourseManager {
             if (department == null) {
                 department = new Department(subject);
                 departments.add(department);
+                // Sort the departments name
                 Collections.sort(departments, new Comparator<Department>() {
                     @Override
                     public int compare(Department d1, Department d2) {
