@@ -135,14 +135,14 @@ public class CourseManager {
         this.rawCourseList = (new CSVHelper().parseCSV(dataFile));
 
         for (RawCourseListing rcl : rawCourseList) {
-            String subject = rcl.getSubject();
-            String catalogNumber = rcl.getCatalogNumber();
-            String semester = rcl.getSemester();
-            String location = rcl.getLocation();
-            String instructors = rcl.getInstructors();
+            String subject = rcl.getSubject().trim();
+            String catalogNumber = rcl.getCatalogNumber().trim();
+            String semester = rcl.getSemester().trim();
+            String location = rcl.getLocation().trim();
+            String instructors = rcl.getInstructors().trim();
             int enrolmentCapacity = rcl.getEnrolmentCapacity();
             int enrolmentTotal = rcl.getEnrolmentTotal();
-            String componentCode = rcl.getComponentCode();
+            String componentCode = rcl.getComponentCode().trim();
 
             addOrUpdateCourseOffering(subject, catalogNumber, semester, location, instructors, enrolmentCapacity, enrolmentTotal, componentCode);
         }
@@ -152,7 +152,11 @@ public class CourseManager {
         Course course = findOrCreateCourse(department, catalogNumber);
         CourseOffering offering = findOrCreateOffering(course, semester, location, instructors);
         updateOfferingInstructors(offering, instructors);
-        updateOrAddSection(offering, componentCode, enrolmentCapacity, enrolmentTotal);
+        Section section = updateOrAddSection(offering, componentCode, enrolmentCapacity, enrolmentTotal);
+
+        if (section != null) {
+            course.updateWatchers(section, semester);
+        }
     }
 
     private Department findOrCreateDepartment(String subject) {
@@ -202,8 +206,8 @@ public class CourseManager {
 
     /*BUG: duplicated instructors*/
     private void updateOfferingInstructors(CourseOffering offering, String instructors) {
-        List<String> existingInstructors = new ArrayList<String>(Arrays.asList(offering.getInstructors().split(",")));
-        String[] newInstructors = instructors.split(",");
+        List<String> existingInstructors = new ArrayList<String>(Arrays.asList(offering.getInstructors().split(", ")));
+        String[] newInstructors = instructors.split(", ");
 
         for (String instructor : newInstructors) {
             if (instructor != null && !instructor.trim().isEmpty() && !existingInstructors.contains(instructor.trim())) {
@@ -211,19 +215,21 @@ public class CourseManager {
             }
         }
 
-        offering.setInstructors(String.join(", ", existingInstructors));
+        offering.setInstructors(String.join(", ", existingInstructors).replace("\"", ""));
     }
 
-    private void updateOrAddSection(CourseOffering offering, String componentCode, int enrolmentCapacity, int enrolmentTotal) {
+    private Section updateOrAddSection(CourseOffering offering, String componentCode, int enrolmentCapacity, int enrolmentTotal) {
         for (Section s : offering.getSections()) {
             if (s.getComponentCode().equals(componentCode)) {
                 s.setEnrolmentTotal(s.getEnrolmentTotal() + enrolmentTotal);
                 s.setEnrolmentCapacity(s.getEnrolmentCapacity() + enrolmentCapacity);
-                return;
+                return null;
             }
         }
 
-        offering.getSections().add(new Section(enrolmentCapacity, enrolmentTotal, componentCode));
+        Section newSection = new Section(enrolmentCapacity, enrolmentTotal, componentCode);
+        offering.getSections().add(newSection);
+        return newSection;
     }
 
 

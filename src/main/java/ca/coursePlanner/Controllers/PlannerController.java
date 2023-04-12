@@ -13,10 +13,10 @@ import java.util.List;
 public class PlannerController {
     private static CourseManager courseManager = new CourseManager();
     private static List<ApiDepartmentWrapper> departments = courseManager.getWrappedDepartments();
+    private static List<Watcher> watchers = new ArrayList<>();
+    private int id = 0;
 
-    /*
-    GENERAL
-     */
+    /* GENERAL */
     @GetMapping("/api/dump-model")
     public void dumpModel() {
         courseManager.dumpCourseOfferings();
@@ -27,9 +27,7 @@ public class PlannerController {
         return new ResponseObject("Cool Course Planner", "Diego Buencamino and Matt Tsai");
     }
 
-    /*
-    DATA ACCESS
-     */
+    /* DATA ACCESS */
     @GetMapping("/api/departments")
     public List<ApiDepartmentWrapper> getDepartments() {
         return departments;
@@ -95,43 +93,66 @@ public class PlannerController {
             }
             return sections;
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "One of Department ID or Course ID is invalid!");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "One of Department ID, Course ID, or Offering ID is invalid!");
         }
     }
 
-//    @PostMapping("/api/addoffering")
-//    @ResponseStatus(HttpStatus.ACCEPTED)
-//    public void addOffering(@RequestBody String semesterCode,
-//                            String departmentName,
-//                            String catalogNumber,
-//                            String location,
-//                            int enrollmentCap,
-//                            String componentCode,
-//                            int enrollmentTotal,
-//                            String instructor) {
-//        try {
-//            courseManager.addOrUpdateCourseOffering(departmentName, catalogNumber, semesterCode, location, instructor, enrollmentCap, enrollmentTotal, componentCode);
-//        } catch (Exception e) {
-//            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "One of the variable is invalid!");
-//        }
-//    }
-
-
     @PostMapping("/api/addoffering")
     @ResponseStatus(HttpStatus.CREATED)
-    public void addOffering(@RequestParam("semester") String semesterCode,
-                            @RequestParam("subjectName") String departmentName,
-                            @RequestParam("catalogNumber") String catalogNumber,
-                            @RequestParam("location") String location,
-                            @RequestParam("enrollmentCap") int enrollmentCap,
-                            @RequestParam("component") String componentCode,
-                            @RequestParam("enrollmentTotal") int enrollmentTotal,
-                            @RequestParam("instructor") String instructor) {
+    public void addOffering(@RequestBody ApiPayloadOfferingWrapper payload) {
         try {
-            courseManager.addOrUpdateCourseOffering(departmentName, catalogNumber, semesterCode, location, instructor, enrollmentCap, enrollmentTotal, componentCode);
+            courseManager.addOrUpdateCourseOffering(
+                    payload.subjectName,
+                    payload.catalogNumber,
+                    payload.semester,
+                    payload.location,
+                    payload.instructor,
+                    payload.enrollmentCap,
+                    payload.enrollmentTotal,
+                    payload.component
+            );
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "One of the variable is invalid!");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "One of the variables is invalid!");
         }
+    }
 
+    /* WATCHERS */
+    @GetMapping("/api/watchers")
+    public List<Watcher> getWatchers() {
+        return watchers;
+    }
+
+    @PostMapping("/api/watchers")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Watcher createWatcher(@RequestBody ApiPayloadWatcherWrapper payload) {
+        try {
+            Department watchDept = courseManager.getDepartments().get(payload.deptId);
+            Course watchCourse = courseManager.getDepartments().get(payload.deptId).getCourses().get(payload.courseId);
+
+            if (watchDept != null && watchCourse != null) {
+                Watcher newWatcher = new Watcher(id, watchDept, watchCourse);
+                watchers.add(newWatcher);
+                id++;
+                return newWatcher;
+            }
+        }
+        catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "One of Department ID or Course ID is invalid!");
+        }
+        return null;
+    }
+
+    @GetMapping("/api/watchers/{id}")
+    public Watcher getWatcher(@PathVariable("id") int watcherId) {
+        try {
+            return watchers.get(watcherId);
+        }
+        catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The watcher ID is invalid!");
+        }
+    }
+
+    @DeleteMapping("/api/watchers/{id}")
+    public void deleteWatcher(@PathVariable("id") int watcherId) {
     }
 }

@@ -7,6 +7,9 @@ public class Course {
 
     private List<CourseOffering> offerings = new ArrayList<>();
 
+    private List<Watcher> watchers = new ArrayList<>();
+
+
     public Course(String catalogNumber) {
         this.catalogNumber = catalogNumber;
     }
@@ -22,6 +25,21 @@ public class Course {
     public void addNewOffering(CourseOffering offering) {
         offerings.add(offering);
     }
+
+    public void addWatcher(Watcher watcher) {
+        watchers.add(watcher);
+    }
+
+    public void removeWatcher(Watcher watcher) {
+        watchers.remove(watcher);
+    }
+
+    public void updateWatchers(Section section, String semester) {
+        for (Watcher w : watchers) {
+            w.update(section, semester);
+        }
+    }
+
 
     @Override
     public boolean equals(Object o){

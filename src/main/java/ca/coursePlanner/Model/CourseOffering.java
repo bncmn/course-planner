@@ -50,17 +50,4 @@ public class CourseOffering{
                 && Objects.equals(semester, that.semester)
                 && Objects.equals(location, that.location);
     }
-
-    // This is to check if the two section has different prof or not
-    public boolean sameCampus(Object o) {
-        if (o == this) return true;
-
-        if (!(o instanceof CourseOffering)) return false;
-
-        CourseOffering that = (CourseOffering) o;
-
-        return super.equals(that)
-                && Objects.equals(semester, that.semester)
-                && Objects.equals(location, that.location);
-    }
 }
