@@ -4,6 +4,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Watcher uses the Observer pattern to watch for changes in offerings of a course.
+ * Each instance contains the Department and Course to be watched (i.e. CMPT 225).
+ * The list of events is passed to the API front-end to be displayed on the Watchers page.
+ */
+
 public class Watcher {
     private int id;
     private Department department;

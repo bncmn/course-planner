@@ -1,6 +1,14 @@
 package ca.coursePlanner.Wrappers;
 import java.util.List;
 
+/**
+ * This wrapper packages instances of the Watcher object to be displayed
+ * by the front-end.
+ *
+ * @author Diego Buencamino
+ * @author Matt Tsai
+ */
+
 public class ApiWatcherWrapper {
     public long watcherId;
     public ApiDepartmentWrapper department;

@@ -2,6 +2,15 @@ package ca.coursePlanner.Model;
 
 import java.util.*;
 
+/**
+ * Department models the departments that offer courses (i.e. CMPT/IAT/MATH/etc.)
+ * This object holds a list of courses for each Course it offers (i.e. Department.CMPT would
+ * contain [Course.120, Course.225, Course.307, ...]
+ *
+ * @author Diego Buencamino
+ * @author Matt Tsai
+ */
+
 public class Department {
     private String name;
     private List<Course> courses = new ArrayList<>();

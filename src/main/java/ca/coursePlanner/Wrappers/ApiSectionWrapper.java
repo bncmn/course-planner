@@ -1,5 +1,13 @@
 package ca.coursePlanner.Wrappers;
 
+/**
+ * This wrapper packages instances of the Section object to be displayed
+ * by the front-end.
+ *
+ * @author Diego Buencamino
+ * @author Matt Tsai
+ */
+
 public class ApiSectionWrapper {
     public int sectionId;
     public int enrollmentCap;

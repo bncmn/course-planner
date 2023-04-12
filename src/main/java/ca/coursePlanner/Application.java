@@ -4,9 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * ca.coursePlanner.Application initializes the Spring Boot application.
+ * Application initializes the Spring Boot application.
  *
  * @author Diego Buencamino
+ * @author Matt Tsai
  */
 
 @SpringBootApplication

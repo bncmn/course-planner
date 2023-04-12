@@ -6,6 +6,17 @@ import java.util.Objects;
 
 import static com.fasterxml.jackson.core.io.NumberInput.parseInt;
 
+/**
+ * CourseOffering models a specific offering of a course. It contains information about:
+ *  - when the offering was held (semester)
+ *  - where it was held (location)
+ *  - who was teaching the offering (instructors)
+ * This object also holds a list of sections for each component of the offering (LEC/LAB/TUT).
+ *
+ * @author Diego Buencamino
+ * @author Matt Tsai
+ */
+
 public class CourseOffering{
     private String semester;
     private String location;

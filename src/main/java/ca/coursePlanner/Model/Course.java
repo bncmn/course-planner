@@ -2,6 +2,15 @@ package ca.coursePlanner.Model;
 
 import java.util.*;
 
+/**
+ * Course models courses offered by a department (i.e. 120/225/307 by the CMPT department).
+ * Each course holds a list of offerings for each time a course was offered.
+ * Course also holds a list of watchers to watch for changes in an offering of a course.
+ *
+ * @author Diego Buencamino
+ * @author Matt Tsai
+ */
+
 public class Course {
     private String catalogNumber;
 
@@ -39,7 +48,6 @@ public class Course {
             w.update(section, semester);
         }
     }
-
 
     @Override
     public boolean equals(Object o){

@@ -1,5 +1,13 @@
 package ca.coursePlanner.Wrappers;
 
+/**
+ * This wrapper packages requests to POST a new offering to be sent to the actual
+ * model.
+ *
+ * @author Diego Buencamino
+ * @author Matt Tsai
+ */
+
 public class ApiPayloadOfferingWrapper {
     public String semester;
     public String subjectName;

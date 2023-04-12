@@ -9,6 +9,15 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * PlannerController handles communication (GET/POST/DELETE requests) between the HTML front-end
+ * and the model back-end. The controller holds an instance of courseManager, a list of
+ * departments wrapped for the API, and a list of watchers for the Watchers functionality.
+ *
+ * @author Diego Buencamino
+ * @author Matt Tsai
+ */
+
 @RestController
 public class PlannerController {
     private static CourseManager courseManager = new CourseManager();
@@ -154,5 +163,13 @@ public class PlannerController {
 
     @DeleteMapping("/api/watchers/{id}")
     public void deleteWatcher(@PathVariable("id") int watcherId) {
+        try {
+            Watcher watcher = watchers.get(watcherId);
+            watcher.getCourse().removeWatcher(watcher);
+            watchers.remove(watcher);
+        }
+        catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The watcher ID is invalid!");
+        }
     }
 }

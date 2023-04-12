@@ -6,8 +6,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * CSV Helper contains the logic to handle .csv files.
+ *
+ * @author Diego Buencamino
+ * @author Matt Tsai
+ */
+
 public class CSVHelper {
-    // Will be changed in part 2 to take path to input file.
     public List<RawCourseListing> parseCSV(String dataFile) {
         String line = "";
         String csvSeparator = ",";

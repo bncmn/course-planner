@@ -1,5 +1,12 @@
 package ca.coursePlanner.Model;
 
+/**
+ * ResponseObject holds information for the /api/about page in the front-end.
+ *
+ * @author Diego Buencamino
+ * @author Matt Tsai
+ */
+
 public class ResponseObject {
     private String appName;
     private String authorName;

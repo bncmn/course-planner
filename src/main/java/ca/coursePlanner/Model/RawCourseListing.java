@@ -1,5 +1,13 @@
 package ca.coursePlanner.Model;
 
+/**
+ * RawCourseListing is what is used by CSVHelper to package incoming data.
+ * This model is also used to package new course data that was input by the API.
+ *
+ * @author Diego Buencamino
+ * @author Matt Tsai
+ */
+
 public class RawCourseListing {
     private String semester;
     private String subject;
