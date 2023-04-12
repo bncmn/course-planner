@@ -144,12 +144,15 @@ public class CourseManager {
             int enrolmentTotal = rcl.getEnrolmentTotal();
             String componentCode = rcl.getComponentCode();
 
-            Department department = findOrCreateDepartment(subject);
-            Course course = findOrCreateCourse(department, catalogNumber);
-            CourseOffering offering = findOrCreateOffering(course, semester, location, instructors);
-            updateOfferingInstructors(offering, instructors);
-            updateOrAddSection(offering, componentCode, enrolmentCapacity, enrolmentTotal);
+            addOrUpdateCourseOffering(subject, catalogNumber, semester, location, instructors, enrolmentCapacity, enrolmentTotal, componentCode);
         }
+    }
+    public void addOrUpdateCourseOffering(String subject, String catalogNumber, String semester, String location, String instructors, int enrolmentCapacity, int enrolmentTotal, String componentCode) {
+        Department department = findOrCreateDepartment(subject);
+        Course course = findOrCreateCourse(department, catalogNumber);
+        CourseOffering offering = findOrCreateOffering(course, semester, location, instructors);
+        updateOfferingInstructors(offering, instructors);
+        updateOrAddSection(offering, componentCode, enrolmentCapacity, enrolmentTotal);
     }
 
     private Department findOrCreateDepartment(String subject) {

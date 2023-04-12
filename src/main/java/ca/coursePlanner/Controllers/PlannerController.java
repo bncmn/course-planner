@@ -99,8 +99,26 @@ public class PlannerController {
         }
     }
 
+//    @PostMapping("/api/addoffering")
+//    @ResponseStatus(HttpStatus.ACCEPTED)
+//    public void addOffering(@RequestBody String semesterCode,
+//                            String departmentName,
+//                            String catalogNumber,
+//                            String location,
+//                            int enrollmentCap,
+//                            String componentCode,
+//                            int enrollmentTotal,
+//                            String instructor) {
+//        try {
+//            courseManager.addOrUpdateCourseOffering(departmentName, catalogNumber, semesterCode, location, instructor, enrollmentCap, enrollmentTotal, componentCode);
+//        } catch (Exception e) {
+//            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "One of the variable is invalid!");
+//        }
+//    }
+
+
     @PostMapping("/api/addoffering")
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.CREATED)
     public void addOffering(@RequestParam("semester") String semesterCode,
                             @RequestParam("subjectName") String departmentName,
                             @RequestParam("catalogNumber") String catalogNumber,
@@ -110,26 +128,9 @@ public class PlannerController {
                             @RequestParam("enrollmentTotal") int enrollmentTotal,
                             @RequestParam("instructor") String instructor) {
         try {
-            // Set the id = 0 for now
-            List<ApiOfferingWrapper> offerings = new ArrayList<>();
-
-
-//            int offeringId = 0;
-
-//            for (CourseOffering co : courseManager
-//                    .getDepartments().get(deptId)
-//                    .getCourses().get(courseId)
-//                    .getOfferings()) {
-//                offerings.add(new ApiOfferingWrapper(
-//                        offeringId,
-//                        co.getSemester(),
-//                        co.getLocation(),
-//                        co.getInstructors()
-//                ));
-//            }
-
+            courseManager.addOrUpdateCourseOffering(departmentName, catalogNumber, semesterCode, location, instructor, enrollmentCap, enrollmentTotal, componentCode);
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "One of the variable is invalid!");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "One of the variable is invalid!");
         }
 
     }
